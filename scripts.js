@@ -136,7 +136,7 @@ function formatPrice(price) {
  * @returns `true` ef `num` er heiltala á bilinu `[min, max]`, annars `false`.
  */
 function validateInteger(num, min = 0, max = Infinity) {
-  /* Útfæra */
+  return min <= num && num <= max;
 }
 
 /**
@@ -151,7 +151,17 @@ function validateInteger(num, min = 0, max = Infinity) {
  * @returns Streng sem inniheldur upplýsingar um vöru og hugsanlega fjölda af henni.
  */
 function formatProduct(product, quantity = undefined) {
-  /* Útfæra */
+ // Falsy gildi
+ // ' ' , 0, null, undefined, false
+ // Truthy gildi
+ // Öll gilsi sem ekki eru falsy, t.d.
+ // 1, '1', true, {} og  []
+
+  if (quantity && quantity > 1) {
+    const total = quantity *product.price;
+    return `${product.title} - ${quantity} * ${product.price} samtals ${total}`;
+  }
+  return `${product.title} - ${product.price}`;
 }
 
 /**
@@ -239,6 +249,8 @@ function addProduct() {
     price,
   };
 
+  console.log(product)
+
   // Bætum vörunni aftast við fylkið okkar.
   products.push(product);
 
@@ -264,7 +276,7 @@ function showProducts() {
 
 /**
  * Bæta vöru við körfu.
- * Byrjar á að biðja um auðkenni vöru sem notandi vill bæta við körfu.
+ * Byrjar á að  biðja um auðkenni vöru sem notandi vill bæta við körfu.
  * Ef auðkenni er ekki heiltala, eru birt villa í console með skilaboðunum:
  * „Auðkenni vöru er ekki löglegt, verður að vera heiltala stærri en 0.“
  * Ef vara finnst ekki með gefnu auðkenni, eru birt villa í console með skilaboðunum:
